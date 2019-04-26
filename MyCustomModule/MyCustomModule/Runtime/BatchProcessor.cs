@@ -69,8 +69,8 @@ namespace MyCustomModule.Runtime
 
             for (int i = 0; i < currentDocuments.Count; i++)
             {
-                int currentPageIndex = i + 1;
-                IACDataElement currentDocument = currentDocuments[currentPageIndex];
+                int currentDocumentIndex = i + 1;
+                IACDataElement currentDocument = currentDocuments[currentDocumentIndex];
 
                 Dictionary<string, string> batchFields = GetKofaxFields(batchElement, BATCH_FIELDS, BATCH_FIELD);
                 Dictionary<string, string> indexFields = GetKofaxFields(currentDocument, INDEX_FIELDS, INDEX_FIELD);
