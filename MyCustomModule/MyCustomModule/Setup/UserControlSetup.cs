@@ -4,6 +4,9 @@ using System.Windows.Forms;
 
 namespace MyCustomModule.Setup
 {
+    /// <summary>
+    ///
+    /// </summary>
     [InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
     public interface ISetupForm
     {
@@ -14,14 +17,36 @@ namespace MyCustomModule.Setup
         void ActionEvent(int EventNumber, object Argument, out int Cancel);
     }
 
+    /// <summary>
+    /// Control to initialize the setup form
+    /// </summary>
     [ClassInterface(ClassInterfaceType.None)]
     [ProgId(CUSTOM_MODULE_NAME_SETUP)]
     public partial class UserControlSetup : UserControl, ISetupForm
     {
+        #region Constants
+
+        /// <summary>
+        /// Name of the setup of the custom module
+        /// </summary>
         private const string CUSTOM_MODULE_NAME_SETUP = "MyCustomModule.Setup";
 
+        #endregion Constants
+
+        #region Variables
+
+        /// <summary>
+        ///
+        /// </summary>
         private AdminApplication adminApplication;
 
+        #endregion Variables
+
+        #region Properties
+
+        /// <summary>
+        /// Attach the custom module to the context menu of the batch class
+        /// </summary>
         public AdminApplication Application
         {
             set
@@ -31,6 +56,16 @@ namespace MyCustomModule.Setup
             }
         }
 
+        #endregion Properties
+
+        #region Methods
+
+        /// <summary>
+        /// Initialize the setup form
+        /// </summary>
+        /// <param name="EventNumber"></param>
+        /// <param name="Argument"></param>
+        /// <param name="Cancel"></param>
         public void ActionEvent(int EventNumber, object Argument, out int Cancel)
         {
             Cancel = 0;
@@ -41,5 +76,7 @@ namespace MyCustomModule.Setup
                 form.ShowDialog(adminApplication.ActiveBatchClass);
             }
         }
+
+        #endregion Methods
     }
 }
