@@ -75,6 +75,9 @@ namespace MyCustomModule.Runtime
                 Dictionary<string, string> batchFields = GetKofaxFields(batchElement, BATCH_FIELDS, BATCH_FIELD);
                 Dictionary<string, string> indexFields = GetKofaxFields(currentDocument, INDEX_FIELDS, INDEX_FIELD);
                 // Dictionary<string, string> batchVariables = GetKofaxFields(batchElement, ...);
+                
+                // access settings
+                // batch.get_CustomStorageString("key");
 
                 string documentFilePath = currentDocument[PDF_GENERATION_FILE_NAME];
 
