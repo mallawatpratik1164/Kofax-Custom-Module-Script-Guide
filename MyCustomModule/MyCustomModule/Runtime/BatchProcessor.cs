@@ -16,6 +16,26 @@ namespace MyCustomModule.Runtime
         /// <summary>
         ///
         /// </summary>
+        private const string BATCH_CLASSES = "BatchClasses";
+
+        /// <summary>
+        ///
+        /// </summary>
+        private const string BATCH_CLASS = "BatchClass";
+
+        /// <summary>
+        ///
+        /// </summary>
+        private const string BATCH_CLASS_CUSTOM_STORAGE_STRINGS = "BatchClassCustomStorageStrings";
+
+        /// <summary>
+        ///
+        /// </summary>
+        private const string BATCH_CLASS_CUSTOM_STORAGE_STRING = "BatchClassCustomStorageString";
+
+        /// <summary>
+        ///
+        /// </summary>
         private const string DOCUMENTS = "Documents";
 
         /// <summary>
@@ -41,10 +61,6 @@ namespace MyCustomModule.Runtime
         /// <summary>
         ///
         /// </summary>
-
-        /// <summary>
-        ///
-        /// </summary>
         private const string INDEX_FIELDS = "IndexFields";
 
         /// <summary>
@@ -62,7 +78,13 @@ namespace MyCustomModule.Runtime
         /// <param name="batch">The batch to process</param>
         public void ProcessBatch(IBatch batch)
         {
+            IACDataElement setupElement = batch.ExtractSetupACDataElement(0);
             IACDataElement rootElement = batch.ExtractRuntimeACDataElement(0);
+
+            IACDataElementCollection batchClasses = GetElementsByName(setupElement, BATCH_CLASSES, BATCH_CLASS);
+            IACDataElement batchClass = batchClasses[1]; // Kofax uses one based indices
+            IACDataElement customStorageStrings = batchClass.FindChildElementByName(BATCH_CLASS_CUSTOM_STORAGE_STRINGS);
+
             IACDataElement batchElement = rootElement.FindChildElementByName(BATCH);
 
             IACDataElementCollection currentDocuments = GetElementsByName(batchElement, DOCUMENTS, DOCUMENT);
@@ -74,10 +96,11 @@ namespace MyCustomModule.Runtime
 
                 Dictionary<string, string> batchFields = GetKofaxFields(batchElement, BATCH_FIELDS, BATCH_FIELD);
                 Dictionary<string, string> indexFields = GetKofaxFields(currentDocument, INDEX_FIELDS, INDEX_FIELD);
-                // Dictionary<string, string> batchVariables = GetKofaxFields(batchElement, ...);
-                
+                // Access Batch Variables like "Scan Operator's User ID"?
+
                 // access settings
-                // batch.get_CustomStorageString("key");
+                // IACDataElement customStorageString = customStorageStrings.FindChildElementByAttribute(BATCH_CLASS_CUSTOM_STORAGE_STRING, "Name", "-- myKey --");
+                // string customStorageStringValue = customStorageString["Value"];
 
                 string documentFilePath = currentDocument[PDF_GENERATION_FILE_NAME];
 
@@ -100,7 +123,7 @@ namespace MyCustomModule.Runtime
         }
 
         /// <summary>
-        /// Searches for specific fields like Indexfields, Batchfields or Batchvariables
+        /// Searches for specific fields like Indexfields or Batchfields
         /// </summary>
         /// <param name="dataElement">The item containing the target fields as children</param>
         /// <param name="rootName">Top level name</param>
