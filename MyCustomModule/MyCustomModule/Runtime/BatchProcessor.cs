@@ -1,6 +1,5 @@
 ﻿using Kofax.Capture.SDK.CustomModule;
 using Kofax.Capture.SDK.Data;
-using System.Collections.Generic;
 
 namespace MyCustomModule.Runtime
 {
@@ -94,9 +93,12 @@ namespace MyCustomModule.Runtime
                 int currentDocumentIndex = i + 1;
                 IACDataElement currentDocument = currentDocuments[currentDocumentIndex];
 
-                Dictionary<string, string> batchFields = GetKofaxFields(batchElement, BATCH_FIELDS, BATCH_FIELD);
-                Dictionary<string, string> indexFields = GetKofaxFields(currentDocument, INDEX_FIELDS, INDEX_FIELD);
-                // Access Batch Variables like "Scan Operator's User ID"?
+                IACDataElementCollection batchFields = GetElementsByName(batchElement, BATCH_FIELDS, BATCH_FIELD);
+                IACDataElementCollection indexFields = GetElementsByName(currentDocument, INDEX_FIELDS, INDEX_FIELD);
+
+                // access BatchVariables (keys can be found in the CaptureSV directory at AcBatch.htm or AcDocs.htm)
+                //string batchVariableValue = batchElement["fieldKey"];
+                //string documentVariableValue = currentDocument["fieldKey"];
 
                 // access settings
                 // IACDataElement customStorageString = customStorageStrings.FindChildElementByAttribute(BATCH_CLASS_CUSTOM_STORAGE_STRING, "Name", "-- myKey --");
@@ -120,28 +122,6 @@ namespace MyCustomModule.Runtime
         private IACDataElementCollection GetElementsByName(IACDataElement dataElement, string rootName, string targetName)
         {
             return dataElement.FindChildElementByName(rootName).FindChildElementsByName(targetName);
-        }
-
-        /// <summary>
-        /// Searches for specific fields like Indexfields or Batchfields
-        /// </summary>
-        /// <param name="dataElement">The item containing the target fields as children</param>
-        /// <param name="rootName">Top level name</param>
-        /// <param name="targetName">Target level name</param>
-        /// <returns>The target fields</returns>
-        private Dictionary<string, string> GetKofaxFields(IACDataElement dataElement, string rootName, string targetName)
-        {
-            IACDataElementCollection fields = GetElementsByName(dataElement, rootName, targetName);
-            Dictionary<string, string> fieldMap = new Dictionary<string, string>();
-
-            foreach (IACDataElement field in fields)
-            {
-                string fieldKey = field["Name"];
-                string fieldValue = field["Value"];
-                fieldMap.Add(fieldKey, fieldValue);
-            }
-
-            return fieldMap;
         }
 
         #endregion Methods
