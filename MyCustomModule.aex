@@ -8,12 +8,12 @@ Description=-- empty --
 Version=10.2
 SupportsNonImageFiles=True
 SupportsTableFields=True
-SetupProgram=MyCustomModule.Setup
+SetupProgram=MyCustomModule.Configuration
 
 [Setup Programs]
-MyCustomModule.Setup
+MyCustomModule.Configuration
 
-[MyCustomModule.Setup]
+[MyCustomModule.Configuration]
 Visible=0
 OCXFile=MyCustomModule.exe
-ProgID=MyCustomModule.Setup
+ProgID=MyCustomModule.Configuration

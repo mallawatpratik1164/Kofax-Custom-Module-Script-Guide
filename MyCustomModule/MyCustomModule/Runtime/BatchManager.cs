@@ -1,68 +1,87 @@
 ﻿using Kofax.Capture.SDK.CustomModule;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Timers;
+using System.Windows.Forms;
 
 namespace MyCustomModule.Runtime
 {
-    internal class BatchManager
+    class BatchManager
     {
-        #region Variables
-
-        /// <summary>
-        /// Processes the current active batch
-        /// </summary>
+        private SessionManager sessionManager;
+        private PollTimer batchPollingTimer;
         private BatchProcessor batchProcessor;
 
-        /// <summary>
-        /// Manages the login / logout process
-        /// </summary>
-        private SessionManager sessionManager;
+        public bool ApplicationIsRunningAsService { get; }
 
-        #endregion Variables
-
-        #region Properties
-
-        /// <summary>
-        /// The current active batch to process
-        /// </summary>
-        public IBatch CurrentActiveBatch { get; private set; }
-
-        #endregion Properties
-
-        #region Constructor
-
-        /// <summary>
-        /// Executes the runtime login
-        /// </summary>
-        /// <param name="batchProcessor"></param>
-        /// <param name="sessionManager"></param>
-        public BatchManager(BatchProcessor batchProcessor, SessionManager sessionManager)
+        public BatchManager(bool applicationIsRunningAsService = true)
         {
-            this.batchProcessor = batchProcessor;
-            this.sessionManager = sessionManager;
+            ApplicationIsRunningAsService = applicationIsRunningAsService;
 
-            this.sessionManager.LoginToRuntimeSession();
+            try
+            {
+                sessionManager = new SessionManager();
+                sessionManager.LoginToRuntimeSession();
+
+                batchProcessor = new BatchProcessor();
+
+                batchPollingTimer = new PollTimer(true, OnPollingTimerTick);
+            }
+            catch (Exception exception)
+            {
+                throw exception;
+            }
         }
 
-        #endregion Constructor
-
-        #region Methods
-
-        /// <summary>
-        /// Tries to retrieve a new batch to process and exits the process if no batch is available
-        /// </summary>
-        public void BatchPolling()
+        public void KillProcess()
         {
-            CurrentActiveBatch = sessionManager.GetNextBatch();
+            try
+            {
+                batchPollingTimer.SetTimerState(false);
 
-            if (CurrentActiveBatch != null)
-            {
-                batchProcessor.ProcessBatch(CurrentActiveBatch);
-            }
-            else
-            {
                 sessionManager.Logout();
+
+                if (!ApplicationIsRunningAsService)
+                {
+                    Application.Exit();
+                }
+            }
+            catch (Exception exception)
+            {
+                throw exception;
             }
         }
 
-        #endregion Methods
+        private void OnPollingTimerTick(object sender, ElapsedEventArgs e)
+        {
+            try
+            {
+                batchPollingTimer.SetTimerState(false);
+
+                IBatch currentActiveBatch = sessionManager.GetNextBatch();
+
+                if (currentActiveBatch != null)
+                {
+                    batchProcessor.ProcessBatch(currentActiveBatch);
+                }
+                else
+                {
+                    if (!ApplicationIsRunningAsService)
+                    {
+                        sessionManager.Logout();
+                        Application.Exit();
+                    }
+                }
+
+                batchPollingTimer.SetTimerState(true);
+            }
+            catch (Exception exception)
+            {
+                throw exception;
+            }
+        }
     }
 }

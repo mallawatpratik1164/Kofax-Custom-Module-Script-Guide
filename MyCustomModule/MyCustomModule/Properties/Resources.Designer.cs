@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MyCustomModule.Properties
-{
-
-
+namespace MyCustomModule.Properties {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -19,52 +19,188 @@ namespace MyCustomModule.Properties
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources
-    {
-
+    internal class Resources {
+        
         private static global::System.Resources.ResourceManager resourceMan;
-
+        
         private static global::System.Globalization.CultureInfo resourceCulture;
-
+        
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources()
-        {
+        internal Resources() {
         }
-
+        
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager
-        {
-            get
-            {
-                if ((resourceMan == null))
-                {
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MyCustomModule.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-
+        
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture
-        {
-            get
-            {
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
                 return resourceCulture;
             }
-            set
-            {
+            set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Batch.
+        /// </summary>
+        internal static string BATCH {
+            get {
+                return ResourceManager.GetString("BATCH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BatchClass.
+        /// </summary>
+        internal static string BATCH_CLASS {
+            get {
+                return ResourceManager.GetString("BATCH_CLASS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BatchClassCustomStorageString.
+        /// </summary>
+        internal static string BATCH_CLASS_CUSTOM_STORAGE_STRING {
+            get {
+                return ResourceManager.GetString("BATCH_CLASS_CUSTOM_STORAGE_STRING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BatchClassCustomStorageStrings.
+        /// </summary>
+        internal static string BATCH_CLASS_CUSTOM_STORAGE_STRINGS {
+            get {
+                return ResourceManager.GetString("BATCH_CLASS_CUSTOM_STORAGE_STRINGS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BatchClasses.
+        /// </summary>
+        internal static string BATCH_CLASSES {
+            get {
+                return ResourceManager.GetString("BATCH_CLASSES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BatchField.
+        /// </summary>
+        internal static string BATCH_FIELD {
+            get {
+                return ResourceManager.GetString("BATCH_FIELD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BatchFields.
+        /// </summary>
+        internal static string BATCH_FIELDS {
+            get {
+                return ResourceManager.GetString("BATCH_FIELDS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MyCustomModule.
+        /// </summary>
+        internal static string CUSTOM_MODULE_ID {
+            get {
+                return ResourceManager.GetString("CUSTOM_MODULE_ID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MyCustomModule.Configuration.
+        /// </summary>
+        internal static string CUSTOM_MODULE_ID_SETUP {
+            get {
+                return ResourceManager.GetString("CUSTOM_MODULE_ID_SETUP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Document.
+        /// </summary>
+        internal static string DOCUMENT {
+            get {
+                return ResourceManager.GetString("DOCUMENT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Documents.
+        /// </summary>
+        internal static string DOCUMENTS {
+            get {
+                return ResourceManager.GetString("DOCUMENTS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IndexField.
+        /// </summary>
+        internal static string INDEX_FIELD {
+            get {
+                return ResourceManager.GetString("INDEX_FIELD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IndexFields.
+        /// </summary>
+        internal static string INDEX_FIELDS {
+            get {
+                return ResourceManager.GetString("INDEX_FIELDS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        internal static string NAME {
+            get {
+                return ResourceManager.GetString("NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PdfGenerationFileName.
+        /// </summary>
+        internal static string PDF_GENERATION_FILE_NAME {
+            get {
+                return ResourceManager.GetString("PDF_GENERATION_FILE_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value.
+        /// </summary>
+        internal static string VALUE {
+            get {
+                return ResourceManager.GetString("VALUE", resourceCulture);
             }
         }
     }

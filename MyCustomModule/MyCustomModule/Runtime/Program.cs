@@ -1,19 +1,29 @@
-﻿using System;
+﻿using MyCustomModule.Runtime;
+using System;
+using System.ServiceProcess;
 using System.Windows.Forms;
 
 namespace MyCustomModule
 {
     internal static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
         private static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FrmMain());
+#if DEBUG
+            new RuntimeService().RunDebugMode();
+            Thread.Sleep(TimeSpan.FromDays(1));
+#else
+            if (Environment.UserInteractive)
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new FrmMain());
+            }
+            else
+            {
+                ServiceBase.Run(new RuntimeService());
+            }
+#endif
         }
     }
 }
