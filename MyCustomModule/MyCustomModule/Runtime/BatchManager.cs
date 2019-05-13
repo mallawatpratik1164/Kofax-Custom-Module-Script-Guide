@@ -15,12 +15,22 @@ namespace MyCustomModule.Runtime
         private PollTimer batchPollingTimer;
         private BatchProcessor batchProcessor;
 
-        public bool ApplicationIsRunningAsService { get; }
+        public bool DisableIdleModeForNonServiceApplications { get; }
 
         public BatchManager(bool applicationIsRunningAsService = true)
         {
-            ApplicationIsRunningAsService = applicationIsRunningAsService;
+            if (!applicationIsRunningAsService)
+            {
+                string[] args = Environment.GetCommandLineArgs();
 
+                // args[0] contains the path to the .exe file
+                if (args.Length > 1)
+                {
+                    // When the application is running from the batch manager, the command line argument starts with -B###, where ### is the decimal batch ID
+                    DisableIdleModeForNonServiceApplications = args[1].StartsWith("-B");
+                }
+            }
+            
             try
             {
                 sessionManager = new SessionManager();
@@ -44,7 +54,7 @@ namespace MyCustomModule.Runtime
 
                 sessionManager.Logout();
 
-                if (!ApplicationIsRunningAsService)
+                if (DisableIdleModeForNonServiceApplications)
                 {
                     Application.Exit();
                 }
@@ -69,7 +79,7 @@ namespace MyCustomModule.Runtime
                 }
                 else
                 {
-                    if (!ApplicationIsRunningAsService)
+                    if (DisableIdleModeForNonServiceApplications)
                     {
                         sessionManager.Logout();
                         Application.Exit();
