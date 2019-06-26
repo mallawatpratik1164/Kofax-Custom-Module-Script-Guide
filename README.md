@@ -113,7 +113,7 @@ The [release form](https://github.com/matthiashermsen/Kofax-Custom-Module-Script
 
 A [login](https://github.com/matthiashermsen/Kofax-Custom-Module-Script-Guide/blob/master/MyCustomModule/MyCustomModule/Runtime/SessionManager.cs) to Kofax is required.
 
-The timer launches a [polling](https://github.com/matthiashermsen/Kofax-Custom-Module-Script-Guide/blob/master/MyCustomModule/MyCustomModule/Runtime/BatchManager.cs) for new batches to [process](https://github.com/matthiashermsen/Kofax-Custom-Module-Script-Guide/blob/master/MyCustomModule/MyCustomModule/Runtime/BatchProcessor.cs)
+The [timer](https://github.com/matthiashermsen/Kofax-Custom-Module-Script-Guide/blob/master/MyCustomModule/MyCustomModule/Runtime/PollTimer.cs) launches a [polling](https://github.com/matthiashermsen/Kofax-Custom-Module-Script-Guide/blob/master/MyCustomModule/MyCustomModule/Runtime/BatchManager.cs) for new batches to [process](https://github.com/matthiashermsen/Kofax-Custom-Module-Script-Guide/blob/master/MyCustomModule/MyCustomModule/Runtime/BatchProcessor.cs)
 
 ### <a name=ProjectRegistration></a> 2.11. Register the project on the machine
 
