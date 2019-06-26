@@ -80,7 +80,7 @@ namespace MyCustomModule.Runtime
                 // ...
             }
 
-            batch.BatchClose(KfxDbState.KfxDbBatchReady, KfxDbQueue.KfxDbQueueNext, 0, "");
+            batch.BatchClose(KfxDbState.KfxDbBatchReady, KfxDbQueue.KfxDbQueueNext, 0, string.Empty);
         }
         
         private IACDataElement GetBatchElementFromBatch(IBatch batch)
