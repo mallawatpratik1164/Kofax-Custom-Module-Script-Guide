@@ -131,6 +131,8 @@ For the service process installer set the **Account** to *Local Service*.
 
 For the service installer setup the **Description**, **Display Name**, **Service Name** and set the **Start Type** to *Automatic*
 
+Update your main file [Program](https://github.com/matthiashermsen/Kofax-Custom-Module-Script-Guide/blob/master/MyCustomModule/MyCustomModule/Runtime/Program.cs)
+
 ### <a name=Installation></a> 2.12. Install the Script
 
 The script can be installed via the administration module
