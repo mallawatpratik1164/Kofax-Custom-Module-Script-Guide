@@ -9,10 +9,6 @@ namespace MyCustomModule
     {
         private static void Main()
         {
-#if DEBUG
-            new RuntimeService().RunDebugMode();
-            Thread.Sleep(TimeSpan.FromDays(1));
-#else
             if (Environment.UserInteractive)
             {
                 Application.EnableVisualStyles();
@@ -23,7 +19,6 @@ namespace MyCustomModule
             {
                 ServiceBase.Run(new RuntimeService());
             }
-#endif
         }
     }
 }
