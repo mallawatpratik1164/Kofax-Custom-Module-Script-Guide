@@ -4,7 +4,7 @@ MyCustomModule
 [MyCustomModule]
 RuntimeProgram=MyCustomModule.exe
 ModuleID=MyCustomModule.exe
-Description=-- empty -- 
+Description=My custom module description
 Version=10.2
 SupportsNonImageFiles=True
 SupportsTableFields=True
