@@ -95,11 +95,11 @@ The **Kofax.Capture.AdminModule.dll**, **Kofax.Capture.SDK.CustomModule.dll**, *
 
 ### <a name=Registration></a> 2.8 Registration
 
+Take the [.bat file](https://github.com/matthiashermsen/Kofax-Custom-Module-Script-Guide/blob/master/MyCustomModuleRegister.bat) to register the custom module. Run it from the Kofax Bin directory as administrator.
+
 Take the [.bat file](https://github.com/matthiashermsen/Kofax-Custom-Module-Script-Guide/blob/master/MyCustomModuleInstall.bat) to install the custom module as a Windows service. Run it from the Kofax Bin directory as administrator.
 
 A [.aex file](https://github.com/matthiashermsen/Kofax-Custom-Module-Script-Guide/blob/master/MyCustomModule.aex) is required to install the custom module. This is then stored in the Kofax Bin directory.
-
-Take the [.bat file](https://github.com/matthiashermsen/Kofax-Custom-Module-Script-Guide/blob/master/MyCustomModuleRegister.bat) to register the custom module. Run it from the Kofax Bin directory as administrator.
 
 ### <a name=SetupScript></a> 2.9 Setup
 
