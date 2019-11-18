@@ -9,6 +9,7 @@ Version=10.2
 SupportsNonImageFiles=True
 SupportsTableFields=True
 SetupProgram=MyCustomModule.Configuration
+Follow=Verification
 
 [Setup Programs]
 MyCustomModule.Configuration
