@@ -1,9 +1,5 @@
 ﻿using Kofax.Capture.SDK.CustomModule;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
 
@@ -15,6 +11,7 @@ namespace MyCustomModule.Runtime
         private PollTimer batchPollingTimer;
         private BatchProcessor batchProcessor;
         private readonly bool applicationIsRunningFromBatchManager;
+        private readonly int selectedBatchId;
 
         public BatchManager(bool applicationIsRunningAsService = true)
         {
@@ -25,8 +22,17 @@ namespace MyCustomModule.Runtime
                 // args[0] contains the path to the .exe file
                 if (args.Length > 1)
                 {
+                    string batchIdCommandLineArgument = args[1];
+
                     // When the application is running from the batch manager, the command line argument starts with -B###, where ### is the decimal batch ID
-                    applicationIsRunningFromBatchManager = args[1].StartsWith("-B");
+                    applicationIsRunningFromBatchManager = batchIdCommandLineArgument.StartsWith("-B");
+
+                    if (applicationIsRunningFromBatchManager)
+                    {
+                        // Extract the selected Batch ID from -B###
+                        string rawBatchId = batchIdCommandLineArgument.Substring(2);
+                        selectedBatchId = Convert.ToInt32(rawBatchId);
+                    }
                 }
             }
             
@@ -37,7 +43,19 @@ namespace MyCustomModule.Runtime
 
                 batchProcessor = new BatchProcessor();
 
-                batchPollingTimer = new PollTimer(true, OnPollingTimerTick);
+                if (applicationIsRunningFromBatchManager)
+                {
+                    // Process the selected batch only
+                    IBatch selectedBatch = sessionManager.GetBatchById(selectedBatchId);
+                    batchProcessor.ProcessBatch(selectedBatch);
+
+                    sessionManager.Logout();
+                    Application.Exit();
+                }
+                else
+                {
+                    batchPollingTimer = new PollTimer(true, OnPollingTimerTick);
+                }
             }
             catch (Exception exception)
             {
@@ -70,19 +88,11 @@ namespace MyCustomModule.Runtime
             {
                 batchPollingTimer.SetTimerState(false);
 
-                IBatch currentActiveBatch = sessionManager.GetNextBatch();
+                IBatch nextBatch = sessionManager.GetNextBatch();
 
-                if (currentActiveBatch != null)
+                if (nextBatch != null)
                 {
-                    batchProcessor.ProcessBatch(currentActiveBatch);
-                }
-                else
-                {
-                    if (applicationIsRunningFromBatchManager)
-                    {
-                        sessionManager.Logout();
-                        Application.Exit();
-                    }
+                    batchProcessor.ProcessBatch(nextBatch);
                 }
 
                 batchPollingTimer.SetTimerState(true);

@@ -14,6 +14,11 @@ namespace MyCustomModule.Runtime
             return session.NextBatchGet(login.ProcessID);
         }
 
+        public IBatch GetBatchById(int batchId)
+        {
+            return session.BatchOpen(batchId, login.ProcessID);
+        }
+
         public void LoginToRuntimeSession()
         {
             login = new Login();
