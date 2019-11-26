@@ -14,8 +14,7 @@ namespace MyCustomModule.Runtime
         private SessionManager sessionManager;
         private PollTimer batchPollingTimer;
         private BatchProcessor batchProcessor;
-
-        public bool ApplicationIsRunningFromBatchManager { get; }
+        private readonly bool applicationIsRunningFromBatchManager;
 
         public BatchManager(bool applicationIsRunningAsService = true)
         {
@@ -27,7 +26,7 @@ namespace MyCustomModule.Runtime
                 if (args.Length > 1)
                 {
                     // When the application is running from the batch manager, the command line argument starts with -B###, where ### is the decimal batch ID
-                    ApplicationIsRunningFromBatchManager = args[1].StartsWith("-B");
+                    applicationIsRunningFromBatchManager = args[1].StartsWith("-B");
                 }
             }
             
@@ -54,7 +53,7 @@ namespace MyCustomModule.Runtime
 
                 sessionManager.Logout();
 
-                if (ApplicationIsRunningFromBatchManager)
+                if (applicationIsRunningFromBatchManager)
                 {
                     Application.Exit();
                 }
@@ -79,7 +78,7 @@ namespace MyCustomModule.Runtime
                 }
                 else
                 {
-                    if (ApplicationIsRunningFromBatchManager)
+                    if (applicationIsRunningFromBatchManager)
                     {
                         sessionManager.Logout();
                         Application.Exit();
