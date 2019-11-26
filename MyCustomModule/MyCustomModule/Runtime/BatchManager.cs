@@ -7,11 +7,12 @@ namespace MyCustomModule.Runtime
 {
     class BatchManager
     {
+        private readonly bool applicationIsRunningFromBatchManager;
+        private readonly int selectedBatchId;
+        
         private SessionManager sessionManager;
         private PollTimer batchPollingTimer;
         private BatchProcessor batchProcessor;
-        private readonly bool applicationIsRunningFromBatchManager;
-        private readonly int selectedBatchId;
 
         public BatchManager(bool applicationIsRunningAsService = true)
         {
