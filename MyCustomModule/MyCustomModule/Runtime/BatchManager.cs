@@ -1,5 +1,6 @@
 ﻿using Kofax.Capture.SDK.CustomModule;
 using System;
+using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
 
@@ -11,7 +12,6 @@ namespace MyCustomModule.Runtime
         private readonly int selectedBatchId;
         
         private SessionManager sessionManager;
-        private PollTimer batchPollingTimer;
         private BatchProcessor batchProcessor;
 
         public BatchManager(bool applicationIsRunningAsService = true)
@@ -49,13 +49,11 @@ namespace MyCustomModule.Runtime
                     // Process the selected batch only
                     IBatch selectedBatch = sessionManager.GetBatchById(selectedBatchId);
                     batchProcessor.ProcessBatch(selectedBatch);
-
-                    sessionManager.Logout();
-                    Application.Exit();
+                    KillProcess();
                 }
                 else
                 {
-                    batchPollingTimer = new PollTimer(true, OnPollingTimerTick);
+                    ProcessQueuedBatches();
                 }
             }
             catch (Exception exception)
@@ -68,8 +66,6 @@ namespace MyCustomModule.Runtime
         {
             try
             {
-                batchPollingTimer.SetTimerState(false);
-
                 sessionManager.Logout();
 
                 if (applicationIsRunningFromBatchManager)
@@ -83,25 +79,27 @@ namespace MyCustomModule.Runtime
             }
         }
 
-        private void OnPollingTimerTick(object sender, ElapsedEventArgs e)
+        private async void ProcessQueuedBatches()
         {
-            try
+            while (true)
             {
-                batchPollingTimer.SetTimerState(false);
-
-                IBatch nextBatch = sessionManager.GetNextBatch();
-
-                if (nextBatch != null)
-                {
-                    batchProcessor.ProcessBatch(nextBatch);
-                }
-
-                batchPollingTimer.SetTimerState(true);
+                IBatch nextBatch = await PollForNextBatch();
+                batchProcessor.ProcessBatch(nextBatch);
             }
-            catch (Exception exception)
+        }
+
+        private async Task<IBatch> PollForNextBatch()
+        {
+            await Task.Delay(1000);
+
+            IBatch nextBatch = sessionManager.GetNextBatch();
+
+            if (nextBatch == null)
             {
-                throw exception;
+                return await PollForNextBatch();
             }
+
+            return nextBatch;
         }
     }
 }

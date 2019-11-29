@@ -16,10 +16,5 @@ namespace MyCustomModule.Runtime
         {
             batchManager = new BatchManager(false);
         }
-
-        private void FrmMain_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            batchManager.KillProcess();
-        }
     }
 }

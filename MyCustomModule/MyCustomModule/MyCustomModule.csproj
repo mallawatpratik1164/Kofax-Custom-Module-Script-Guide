@@ -98,7 +98,6 @@
     <Compile Include="Runtime\FrmMain.Designer.cs">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Runtime\PollTimer.cs" />
     <Compile Include="Runtime\RuntimeService.cs">
       <SubType>Component</SubType>
     </Compile>
