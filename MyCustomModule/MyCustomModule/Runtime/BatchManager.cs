@@ -10,9 +10,9 @@ namespace MyCustomModule.Runtime
     {
         private readonly bool applicationIsRunningFromBatchManager;
         private readonly int selectedBatchId;
-        
-        private SessionManager sessionManager;
-        private BatchProcessor batchProcessor;
+        private readonly SessionManager sessionManager;
+        private readonly BatchProcessor batchProcessor;
+        private readonly RecurringTask recurringTask;
 
         public BatchManager(bool applicationIsRunningAsService = true)
         {
@@ -53,7 +53,19 @@ namespace MyCustomModule.Runtime
                 }
                 else
                 {
-                    ProcessQueuedBatches();
+                    recurringTask = new RecurringTask((taskToExecute) =>
+                    {
+                        taskToExecute.Enabled = false;
+
+                        IBatch nextBatch = sessionManager.GetNextBatch();
+
+                        if (nextBatch != null)
+                        {
+                            batchProcessor.ProcessBatch(nextBatch);
+                        }
+
+                        taskToExecute.Enabled = true;
+                    }, 3000, true);
                 }
             }
             catch (Exception exception)
@@ -77,29 +89,6 @@ namespace MyCustomModule.Runtime
             {
                 throw exception;
             }
-        }
-
-        private async void ProcessQueuedBatches()
-        {
-            while (true)
-            {
-                IBatch nextBatch = await PollForNextBatch();
-                batchProcessor.ProcessBatch(nextBatch);
-            }
-        }
-
-        private async Task<IBatch> PollForNextBatch()
-        {
-            await Task.Delay(1000);
-
-            IBatch nextBatch = sessionManager.GetNextBatch();
-
-            if (nextBatch == null)
-            {
-                return await PollForNextBatch();
-            }
-
-            return nextBatch;
         }
     }
 }
